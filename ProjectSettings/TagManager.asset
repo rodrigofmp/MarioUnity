@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - Pipe
+  - Mario
   layers:
   - Default
   - TransparentFX
