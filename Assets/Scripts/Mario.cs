@@ -14,7 +14,8 @@ public class Mario : MonoBehaviour
     private bool _isJumping = false;
     private bool _isDead = false;
 
-    public float Velocity = 2f;
+    public float Velocity = 5f;
+    public float JumpForce = 200f;
 
     void Start()
     {
@@ -39,6 +40,12 @@ public class Mario : MonoBehaviour
             dir.x = 1;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
+            _rb.AddForce(new Vector2(0, JumpForce));
+        }
+
         Vector2 vel = _rb.velocity;
         vel.x = dir.x * Velocity;
         _rb.velocity = vel;
@@ -53,6 +60,9 @@ public class Mario : MonoBehaviour
         {
             _renderer.flipX = false;
         }
+
+        _isJumping = !_bottomHelper.IsColliding;
+        _animator.SetBool("Jump", _isJumping);
     }
 
     public float GetAbsRunVelocity()
