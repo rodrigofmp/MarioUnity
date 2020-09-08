@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
+    private MarioColliderHelper _bottomHelper;
+    private MarioColliderHelper _rightHelper;
+    private MarioColliderHelper _leftHelper;
     private Rigidbody2D _rb;
     private Animator _animator;
     private SpriteRenderer _renderer;
@@ -18,17 +21,20 @@ public class Mario : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        _bottomHelper = GetComponentsInChildren<MarioColliderHelper>()[0];
+        _rightHelper = GetComponentsInChildren<MarioColliderHelper>()[1];
+        _leftHelper = GetComponentsInChildren<MarioColliderHelper>()[2];
     }
 
     void FixedUpdate()
     {
         Vector2 dir = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && !_leftHelper.IsColliding)
         {
             dir.x = -1;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) && !_rightHelper.IsColliding)
         {
             dir.x = 1;
         }
