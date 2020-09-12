@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,17 @@ public class KoopaTroopa : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (!IsAlive)
+        {
+            if (transform.position.y < -15f)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -41,12 +53,27 @@ public class KoopaTroopa : MonoBehaviour
         }
     }
 
+    public void Kill()
+    {
+        if (IsAlive)
+        {
+            IsAlive = false;
+            
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            _rb.velocity = Vector2.zero;
+            _rb.AddForce(new Vector2(0, 5));
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Mario"))
-        {
-            collision.gameObject.GetComponent<Mario>().Kill();
-            this.Velocity = 0f;
+        if (IsAlive)
+        { 
+            if (collision.gameObject.CompareTag("Mario"))
+            {
+                collision.gameObject.GetComponent<Mario>().Kill();
+                this.Velocity = 0f;
+            }
         }
     }
 }

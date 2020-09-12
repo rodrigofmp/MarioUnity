@@ -8,6 +8,7 @@ TagManager:
   - Pipe
   - Mario
   - Enemy
+  - WeakPoint
   layers:
   - Default
   - TransparentFX

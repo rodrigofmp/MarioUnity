@@ -25,7 +25,17 @@ public class Mario : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        
         _bottomHelper = GetComponentsInChildren<MarioColliderHelper>()[0];
+        _bottomHelper.OnTriggerEnter2DAction = delegate (Collider2D obj)
+        {
+            if (obj.CompareTag("WeakPoint"))
+            {
+                obj.GetComponentInParent<KoopaTroopa>().Kill();
+                Jump();
+            }
+        };
+
         _rightHelper = GetComponentsInChildren<MarioColliderHelper>()[1];
         _leftHelper = GetComponentsInChildren<MarioColliderHelper>()[2];
     }
@@ -55,8 +65,7 @@ public class Mario : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, 0);
-            _rb.AddForce(new Vector2(0, JumpForce));
+            Jump();
         }
 
         Vector2 vel = _rb.velocity;
@@ -76,6 +85,11 @@ public class Mario : MonoBehaviour
 
         _isJumping = !_bottomHelper.IsColliding;
         _animator.SetBool("Jump", _isJumping);
+    }
+    private void Jump()
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, 0);
+        _rb.AddForce(new Vector2(0, JumpForce));
     }
 
     public float GetAbsRunVelocity()
