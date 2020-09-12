@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
+    private GameBehaviour _game;
+
     private MarioColliderHelper _bottomHelper;
     private MarioColliderHelper _rightHelper;
     private MarioColliderHelper _leftHelper;
@@ -19,6 +21,7 @@ public class Mario : MonoBehaviour
 
     void Start()
     {
+        _game = GameObject.Find("Main Camera").GetComponent<GameBehaviour>();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
@@ -27,8 +30,14 @@ public class Mario : MonoBehaviour
         _leftHelper = GetComponentsInChildren<MarioColliderHelper>()[2];
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        if (!_game.IsGameRunning)
+        {
+            _animator.SetFloat("Velocity", 0);
+            return;
+        }
+
         Vector2 dir = Vector2.zero;
 
         if (Input.GetKey(KeyCode.A) && !_leftHelper.IsColliding)
