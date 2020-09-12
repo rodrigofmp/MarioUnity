@@ -40,4 +40,13 @@ public class KoopaTroopa : MonoBehaviour
                 this.transform.localScale.z);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Mario"))
+        {
+            collision.gameObject.GetComponent<Mario>().Kill();
+            this.Velocity = 0f;
+        }
+    }
 }

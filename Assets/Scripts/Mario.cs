@@ -37,6 +37,10 @@ public class Mario : MonoBehaviour
             _animator.SetFloat("Velocity", 0);
             return;
         }
+        else if (_isDead)
+        {
+            return;
+        }
 
         Vector2 dir = Vector2.zero;
 
@@ -87,5 +91,14 @@ public class Mario : MonoBehaviour
     public bool IsDead()
     {
         return _isDead;
+    }
+
+    public void Kill()
+    {
+        if (!_isDead)
+        { 
+            _isDead = true;
+            _animator.SetBool("Dead", true);
+        }
     }
 }
