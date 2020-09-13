@@ -6,6 +6,7 @@ public class Mario : MonoBehaviour
 {
     private GameBehaviour _game;
 
+    private AudioSource _jumpAudio;
     private MarioColliderHelper _bottomHelper;
     private MarioColliderHelper _rightHelper;
     private MarioColliderHelper _leftHelper;
@@ -21,6 +22,7 @@ public class Mario : MonoBehaviour
 
     void Start()
     {
+        _jumpAudio = GetComponent<AudioSource>();
         _game = GameObject.Find("Main Camera").GetComponent<GameBehaviour>();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -90,6 +92,7 @@ public class Mario : MonoBehaviour
     {
         _rb.velocity = new Vector2(_rb.velocity.x, 0);
         _rb.AddForce(new Vector2(0, JumpForce));
+        _jumpAudio.Play();
     }
 
     public float GetAbsRunVelocity()
