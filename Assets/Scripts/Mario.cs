@@ -53,6 +53,11 @@ public class Mario : MonoBehaviour
         {
             return;
         }
+        else if (this.transform.position.y <= -5f)            
+        {
+            Kill();
+            return;
+        }
 
         Vector2 dir = Vector2.zero;
 

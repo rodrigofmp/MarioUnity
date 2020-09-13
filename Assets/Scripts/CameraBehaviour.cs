@@ -10,6 +10,8 @@ public class CameraBehaviour : MonoBehaviour
     public Vector2 Offset = new Vector2(0f, -3f);
     public Vector2 LearpAmount = new Vector2(0.3f, 0.1f);
 
+    public float MinY = -0.28f;
+
     void Start()
     {
         Target = GameObject.Find("Mario").transform;
@@ -19,6 +21,7 @@ public class CameraBehaviour : MonoBehaviour
             Vector3 pos = this.transform.position;
             pos.x = Target.position.x + Offset.x;
             pos.y = Target.position.y + Offset.y;
+
             this.transform.position = pos;
         }
     }
@@ -28,6 +31,8 @@ public class CameraBehaviour : MonoBehaviour
         Vector3 pos = this.transform.position;
         pos.x = Mathf.Lerp(pos.x, Target.position.x + Offset.x, LearpAmount.x);
         pos.y = Mathf.Lerp(pos.y, Target.position.y + Offset.y, LearpAmount.y);
+
+        pos.y = pos.y <= MinY ? MinY : pos.y;
 
         this.transform.position = pos;
     }
