@@ -11,7 +11,7 @@ public class GameBehaviour : MonoBehaviour
     
     private float _restartClock = 0f;
 
-    //private Mario _marioScript;
+    private Mario _marioScript;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class GameBehaviour : MonoBehaviour
         if (mario == null)
             throw new UnityException("Mario not found on the scene!");
 
-        //_marioScript = mario.GetComponent<Mario>();
+        _marioScript = mario.GetComponent<Mario>();
 
         mario.transform.position = new Vector3(startPoint.transform.position.x, 
             startPoint.transform.position.y-1, 0);
@@ -35,15 +35,15 @@ public class GameBehaviour : MonoBehaviour
 
     private void Update()
     {
-        //if (_marioScript.IsDead())
-        //{
-        //    _restartClock += Time.deltaTime;
-        //    if (_restartClock >= 3.0f)
-        //    {
-        //        _restartClock = 0f;
-        //        Restart();
-        //    }
-        //}
+        if (_marioScript.IsDead())
+        {
+            _restartClock += Time.deltaTime;
+            if (_restartClock >= 3.0f)
+            {
+                _restartClock = 0f;
+                Restart();
+            }
+        }
     }
 
     public void AddCoin()
